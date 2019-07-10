@@ -5,13 +5,13 @@ import 'home.dart';
 
 List<CameraDescription> cameras;
 
-Future<Null> main() async {
+Future<void> main() async {
   try {
     cameras = await availableCameras();
   } on CameraException catch (e) {
     print('Error: $e.code\nError Message: $e.message');
   }
-  runApp(new MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {

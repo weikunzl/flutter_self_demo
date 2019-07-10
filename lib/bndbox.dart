@@ -1,8 +1,11 @@
-import 'package:flutter/material.dart';
 import 'dart:math' as math;
+import 'package:flutter/material.dart';
 import 'models.dart';
 
 class BndBox extends StatelessWidget {
+  const BndBox(this.results, this.previewH, this.previewW, this.screenH,
+      this.screenW, this.model);
+
   final List<dynamic> results;
   final int previewH;
   final int previewW;
@@ -10,23 +13,20 @@ class BndBox extends StatelessWidget {
   final double screenW;
   final String model;
 
-  BndBox(this.results, this.previewH, this.previewW, this.screenH, this.screenW,
-      this.model);
-
   @override
   Widget build(BuildContext context) {
     List<Widget> _renderBoxes() {
-      return results.map((re) {
-        var _x = re["rect"]["x"];
-        var _w = re["rect"]["w"];
-        var _y = re["rect"]["y"];
-        var _h = re["rect"]["h"];
-        var scaleW, scaleH, x, y, w, h;
+      return results.map((dynamic re) {
+        final double _x = re['rect']['x'];
+        final double _w = re['rect']['w'];
+        final double _y = re['rect']['y'];
+        final double _h = re['rect']['h'];
+        double scaleW, scaleH, x, y, w, h;
 
         if (screenH / screenW > previewH / previewW) {
           scaleW = screenH / previewH * previewW;
           scaleH = screenH;
-          var difW = (scaleW - screenW) / scaleW;
+          final double difW = (scaleW - screenW) / scaleW;
           x = (_x - difW / 2) * scaleW;
           w = _w * scaleW;
           if (_x < difW / 2) w -= (difW / 2 - _x) * scaleW;
@@ -35,7 +35,7 @@ class BndBox extends StatelessWidget {
         } else {
           scaleH = screenW / previewW * previewH;
           scaleW = screenW;
-          var difH = (scaleH - screenH) / scaleH;
+          final double difH = (scaleH - screenH) / scaleH;
           x = _x * scaleW;
           w = _w * scaleW;
           y = (_y - difH / 2) * scaleH;
@@ -49,17 +49,17 @@ class BndBox extends StatelessWidget {
           width: w,
           height: h,
           child: Container(
-            padding: EdgeInsets.only(top: 5.0, left: 5.0),
+            padding: const EdgeInsets.only(top: 5.0, left: 5.0),
             decoration: BoxDecoration(
               border: Border.all(
-                color: Color.fromRGBO(37, 213, 253, 1.0),
+                color: const Color.fromRGBO(37, 213, 253, 1.0),
                 width: 3.0,
               ),
             ),
             child: Text(
-              "${re["detectedClass"]} ${(re["confidenceInClass"] * 100).toStringAsFixed(0)}%",
+              '${re['detectedClass']} ${(re['confidenceInClass'] * 100).toStringAsFixed(0)}%',
               style: TextStyle(
-                color: Color.fromRGBO(37, 213, 253, 1.0),
+                color: const Color.fromRGBO(37, 213, 253, 1.0),
                 fontSize: 14.0,
                 fontWeight: FontWeight.bold,
               ),
@@ -71,7 +71,7 @@ class BndBox extends StatelessWidget {
 
     List<Widget> _renderStrings() {
       double offset = -10;
-      return results.map((re) {
+      return results.map((dynamic re) {
         offset = offset + 14;
         return Positioned(
           left: 10,
@@ -79,9 +79,9 @@ class BndBox extends StatelessWidget {
           width: screenW,
           height: screenH,
           child: Text(
-            "${re["label"]} ${(re["confidence"] * 100).toStringAsFixed(0)}%",
+            '${re['label']} ${(re['confidence'] * 100).toStringAsFixed(0)}%',
             style: TextStyle(
-              color: Color.fromRGBO(37, 213, 253, 1.0),
+              color: const Color.fromRGBO(37, 213, 253, 1.0),
               fontSize: 14.0,
               fontWeight: FontWeight.bold,
             ),
@@ -91,23 +91,23 @@ class BndBox extends StatelessWidget {
     }
 
     List<Widget> _renderKeypoints() {
-      var lists = <Widget>[];
-      results.forEach((re) {
-        var list = re["keypoints"].values.map<Widget>((k) {
-          var _x = k["x"];
-          var _y = k["y"];
-          var scaleW, scaleH, x, y;
+      final List<Widget> lists = <Widget>[];
+      results.forEach((dynamic re) {
+        final List<Widget> list = re['keypoints'].values.map<Widget>((dynamic k) {
+          final double _x = k['x'];
+          final double _y = k['y'];
+          double scaleW, scaleH, x, y;
 
           if (screenH / screenW > previewH / previewW) {
             scaleW = screenH / previewH * previewW;
             scaleH = screenH;
-            var difW = (scaleW - screenW) / scaleW;
+            final double difW = (scaleW - screenW) / scaleW;
             x = (_x - difW / 2) * scaleW;
             y = _y * scaleH;
           } else {
             scaleH = screenW / previewW * previewH;
             scaleW = screenW;
-            var difH = (scaleH - screenH) / scaleH;
+            final double difH = (scaleH - screenH) / scaleH;
             x = _x * scaleW;
             y = (_y - difH / 2) * scaleH;
           }
@@ -118,9 +118,9 @@ class BndBox extends StatelessWidget {
             height: 12,
             child: Container(
               child: Text(
-                "● ${k["part"]}",
+                '● ${k['part']}',
                 style: TextStyle(
-                  color: Color.fromRGBO(37, 213, 253, 1.0),
+                  color: const Color.fromRGBO(37, 213, 253, 1.0),
                   fontSize: 12.0,
                 ),
               ),
