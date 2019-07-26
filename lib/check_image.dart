@@ -176,6 +176,10 @@ class _CheckImageState extends State<CheckImage> {
         width: re['rect']['w'] * factorX,
         height: re['rect']['h'] * factorY,
         child: Container(
+
+
+
+
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.circular(8.0)),
             border: Border.all(
